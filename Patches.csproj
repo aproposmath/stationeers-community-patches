@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <AssemblyName>CommunityPatches</AssemblyName>
+    <Description>Fixes for Stationeers</Description>
+    <Version>$(VERSION)</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="UnityEngine.Modules" Version="2021.2.3" IncludeAssets="compile"/>
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all"/>
+    <PackageReference Include="BepInEx.Core" Version="5.*"/>
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*"/>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>libs/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UniTask">
+      <HintPath>libs/UniTask.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>libs/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>libs/netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard">
+      <HintPath>libs/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>libs/publicized_assemblies/Assembly-CSharp_publicized.dll</HintPath>
+    </Reference>
+    <Compile Remove="ori/*"/>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
+  </ItemGroup>
+</Project>
