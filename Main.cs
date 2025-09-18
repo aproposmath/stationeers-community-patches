@@ -24,7 +24,7 @@ using UI.Tooltips;
 using UnityEngine;
 using Util.Commands;
 
-namespace StationeersPatches
+namespace StationeersCommunityPatches
 {
     public class Timer : IDisposable
     {
@@ -90,10 +90,10 @@ namespace StationeersPatches
     }
 
     [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
-    public class PatchesPlugin : BaseUnityPlugin
+    public class CommunityPatchesPlugin : BaseUnityPlugin
     {
         public const string pluginGuid = "4d47fe06-7bd8-46e7-9b16-0925779a7b7f";
-        public const string pluginName = "Patches";
+        public const string pluginName = "CommunityPatches";
         public const string pluginVersion = VersionInfo.Version;
 
         private void Awake()
@@ -102,7 +102,7 @@ namespace StationeersPatches
             {
                 L.Initialize(Logger);
                 L.Info(
-                    $"Awake Patches {VersionInfo.VersionGit} build time {VersionInfo.BuildTime}"
+                    $"Awake CommunityPatches {VersionInfo.VersionGit} build time {VersionInfo.BuildTime}"
                 );
 
                 var harmony = new Harmony(pluginGuid);
@@ -110,7 +110,7 @@ namespace StationeersPatches
             }
             catch (Exception ex)
             {
-                L.Error($"Error during Patches {VersionInfo.VersionGit} init: {ex}");
+                L.Error($"Error during CommunityPatches {VersionInfo.VersionGit} init: {ex}");
             }
         }
     }

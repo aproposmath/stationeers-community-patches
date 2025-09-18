@@ -35,7 +35,7 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>libs/publicized_assemblies/Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
-    <Compile Remove="ori/*"/>
+    <Compile Remove="ori"/>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all"/>
