@@ -16,6 +16,14 @@ namespace StationeersCommunityPatches
             ref object __result
         )
         {
+            // check if deviceCode is of the form "drr...rX" where X is a digit and there is at least one 'r'
+            bool isIndirectDevice =
+                deviceCode.Length > 2
+                && deviceCode[0] == 'd'
+                && deviceCode[1] == 'r'
+                && char.IsDigit(deviceCode[deviceCode.Length - 1]);
+            for (int i = 2; i < deviceCode.Length - 1; i++)
+                isIndirectDevice = isIndirectDevice && deviceCode[i] == 'r';
             if (deviceCode.Length > 2 && deviceCode[0] == 'd' && deviceCode[1] == 'r')
             {
                 try
