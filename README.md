@@ -1,4 +1,4 @@
-# Stationeers Community Fixes
+# Stationeers Community Patches
 
 This mod fixes some issues related to IC10 in Stationeers.
 
@@ -19,4 +19,4 @@ s dr0 Setting 99
 ## Installation
 
 This mode requires [BepInEx](https://github.com/BepInEx/BepInEx).
-Download the latest release from the [releases page](https://github.com/aproposmath/stationeers-pytrapic/releases) and unzip it into your `BepInEx/plugins` folder.
+Download the latest release from the [releases page](https://github.com/aproposmath/stationeers-community-patches/releases) and unzip it into your `BepInEx/plugins` folder.
