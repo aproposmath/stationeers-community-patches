@@ -1,28 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Assets.Scripts.Networking;
-using Assets.Scripts.Networking.Transports;
-using Assets.Scripts.Objects;
-using Assets.Scripts.Objects.Electrical;
-using Assets.Scripts.Objects.Motherboards;
-using Assets.Scripts.UI;
+using Assets.Scripts;
 using BepInEx;
 using BepInEx.Logging;
-using Cysharp.Threading.Tasks;
 using HarmonyLib;
-using Newtonsoft.Json;
-using UI.Tooltips;
-using UnityEngine;
-using Util.Commands;
 
 namespace StationeersCommunityPatches
 {
@@ -86,6 +67,25 @@ namespace StationeersCommunityPatches
             if (!_debugEnabled)
                 return;
             _logger?.LogDebug(Timestamp + msg?.ToString());
+        }
+    }
+
+    public class BasePatch
+    {
+        public static bool IsGameNewerOrEqual(
+            string firstGoodVersionString = "0.2.5912.26032",
+            string patchName = ""
+        )
+        {
+            Version firstGoodVersion = new Version(firstGoodVersionString);
+            Version version = new Version(GameManager.GetGameVersion().Trim());
+            ;
+            bool result = version >= firstGoodVersion;
+            if (result)
+            {
+                L.Log($"Skipping Patch {patchName}, version {version} >= {firstGoodVersion}");
+            }
+            return result;
         }
     }
 

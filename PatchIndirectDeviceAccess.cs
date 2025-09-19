@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Assets.Scripts.Objects.Electrical;
 using HarmonyLib;
 
@@ -7,8 +8,13 @@ namespace StationeersCommunityPatches
 {
     // Patches device access using indirect device access ("drX")
     [HarmonyPatch]
-    public static class PatchIndirectDeviceVariable
+    public class PatchIndirectDeviceVariable : BasePatch
     {
+        public static bool skipPatch = IsGameNewerOrEqual(
+            "0.2.5912.26032",
+            nameof(PatchIndirectDeviceVariable)
+        );
+
         public static bool Prefix(
             ProgrammableChip chip,
             int lineNumber,
@@ -16,15 +22,15 @@ namespace StationeersCommunityPatches
             ref object __result
         )
         {
+            if (skipPatch)
+                return true;
+
+            string[] tokens = deviceCode.Split(':');
+            if (tokens.Length == 0 || tokens[0][0] != 'd')
+                return true;
+
             // check if deviceCode is of the form "drr...rX" where X is a digit and there is at least one 'r'
-            bool isIndirectDevice =
-                deviceCode.Length > 2
-                && deviceCode[0] == 'd'
-                && deviceCode[1] == 'r'
-                && char.IsDigit(deviceCode[deviceCode.Length - 1]);
-            for (int i = 2; i < deviceCode.Length - 1; i++)
-                isIndirectDevice = isIndirectDevice && deviceCode[i] == 'r';
-            if (deviceCode.Length > 2 && deviceCode[0] == 'd' && deviceCode[1] == 'r')
+            if (Regex.IsMatch(tokens[1], "^(d[0-9]|dr*[r0-9][0-9])$"))
             {
                 try
                 {
