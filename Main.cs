@@ -1,73 +1,46 @@
-using System;
-using System.Diagnostics;
-using Assets.Scripts;
-using BepInEx;
-using BepInEx.Logging;
-using HarmonyLib;
-
 namespace StationeersCommunityPatches
 {
-    public class Timer : IDisposable
+    using Assets.Scripts;
+    using UnityEngine;
+    using System;
+    using BepInEx;
+    using HarmonyLib;
+    using System.Collections;
+
+    class L
     {
-        public Stopwatch stopwatch;
-        public string name;
+        private static BepInEx.Logging.ManualLogSource _logger;
 
-        public Timer(string name)
-        {
-            this.name = name;
-            stopwatch = Stopwatch.StartNew();
-        }
-
-        public void Dispose()
-        {
-            stopwatch.Stop();
-            L.Debug($"{name} took {stopwatch.ElapsedMilliseconds}ms");
-        }
-    }
-
-    public static class L
-    {
-        private static ManualLogSource _logger;
-#if DEBUG
-        private static bool _debugEnabled = true;
-#else
-        private static bool _debugEnabled = false;
-#endif
-
-        public static string Timestamp => DateTime.Now.ToString("HH:mm:ss.fff - ");
-
-        public static void Initialize(ManualLogSource logger)
+        public static void SetLogger(BepInEx.Logging.ManualLogSource logger)
         {
             _logger = logger;
         }
 
-        public static bool ToggleDebug()
+        public static void Debug(string message)
         {
-            _debugEnabled = !_debugEnabled;
-            return _debugEnabled;
+            _logger?.LogDebug(message);
         }
 
         public static void Log(string message)
         {
-            _logger?.LogMessage(Timestamp + message?.ToString());
+            _logger?.LogInfo(message);
         }
 
-        public static void Info(object msg)
+        public static void Info(string message)
         {
-            _logger?.LogInfo(Timestamp + msg?.ToString());
+            _logger?.LogInfo(message);
         }
 
-        public static void Error(object msg)
+        public static void Error(string message)
         {
-            _logger?.LogError(Timestamp + msg?.ToString());
+            _logger?.LogError(message);
         }
 
-        public static void Debug(object msg)
+        public static void Warning(string message)
         {
-            if (!_debugEnabled)
-                return;
-            _logger?.LogDebug(Timestamp + msg?.ToString());
+            _logger?.LogWarning(message);
         }
+
     }
 
     public class BasePatch
@@ -89,28 +62,28 @@ namespace StationeersCommunityPatches
         }
     }
 
-    [BepInPlugin(pluginGuid, pluginName, pluginVersion)]
+
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class CommunityPatchesPlugin : BaseUnityPlugin
     {
-        public const string pluginGuid = "4d47fe06-7bd8-46e7-9b16-0925779a7b7f";
-        public const string pluginName = "CommunityPatches";
-        public const string pluginVersion = VersionInfo.Version;
+        public const string PluginGuid = "aproposmath-stationeers-community-pathes";
+        public const string PluginName = "Stationeers Community Patches";
+        public const string PluginVersion = VersionInfo.Version;
 
         private void Awake()
         {
             try
             {
-                L.Initialize(Logger);
-                L.Info(
-                    $"Awake CommunityPatches {VersionInfo.VersionGit} build time {VersionInfo.BuildTime}"
-                );
+                L.SetLogger(this.Logger);
+                this.Logger.LogInfo(
+                    $"Awake ${PluginName} {VersionInfo.VersionGit}, build time {VersionInfo.BuildTime}");
 
-                var harmony = new Harmony(pluginGuid);
+                var harmony = new Harmony(PluginGuid);
                 harmony.PatchAll();
             }
             catch (Exception ex)
             {
-                L.Error($"Error during CommunityPatches {VersionInfo.VersionGit} init: {ex}");
+                this.Logger.LogError($"Error during ${PluginName} {VersionInfo.VersionGit} init: {ex}");
             }
         }
     }
