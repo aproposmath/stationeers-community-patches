@@ -43,26 +43,6 @@ namespace StationeersCommunityPatches
 
     }
 
-    public class BasePatch
-    {
-        public static bool IsGameNewerOrEqual(
-            string firstGoodVersionString = "0.2.5912.26032",
-            string patchName = ""
-        )
-        {
-            Version firstGoodVersion = new Version(firstGoodVersionString);
-            Version version = new Version(GameManager.GetGameVersion().Trim());
-            ;
-            bool result = version >= firstGoodVersion;
-            if (result)
-            {
-                L.Log($"Skipping Patch {patchName}, version {version} >= {firstGoodVersion}");
-            }
-            return result;
-        }
-    }
-
-
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class CommunityPatchesPlugin : BaseUnityPlugin
     {
