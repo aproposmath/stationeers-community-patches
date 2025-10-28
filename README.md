@@ -1,6 +1,6 @@
 # Stationeers Community Patches
 
-This mod fixes some issues related to IC10 in Stationeers.
+This mod fixes some issues in Stationeers.
 
 Currently it fixes two issues:
 
@@ -9,12 +9,7 @@ Currently it fixes two issues:
 l r0 db:0 StackSize
 ```
 
-- Indirect adressing of devices
-```asm
-# sets Setting of d3 to 99
-move r0 3
-s dr0 Setting 99
-```
+- LogicDisplay text is shown correctly when mounted upside down
 
 ## Installation
 
